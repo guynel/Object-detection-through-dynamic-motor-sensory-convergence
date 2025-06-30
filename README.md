@@ -5,7 +5,7 @@ All originally authored MATLAB codes, used in analysis and figure generation, ar
 The entry-point, which calls upon all other codes, is 'generateAllFigures.m' within the directory Main Flow.
 
 External codes (required):
-- Analyses and figure generation rely on several codes by others. We would like to extended our gratitude to the authors of these codes.
+Analyses and figure generation rely on several codes by others. We would like to extended our gratitude to the authors of these codes.
 These codes are not included here to avoid infringing on rights. They may be obtained independently, as follows:
 'Circular Statistics Toolbox’ by Philipp Berens
 Link: https://www.mathworks.com/matlabcentral/fileexchange/10676-circular-statistics-toolbox-directional-statistics
