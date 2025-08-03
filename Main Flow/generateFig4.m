@@ -43,7 +43,7 @@ step_size = [0.025 0.05 0.05];
 p_first_last_handles = cell(0);
 for var_num = 1:length(vars)
     CDF_panels(var_num) = axes();
-    set(CDF_panels(var_num),'Units','Centimeters','Position',[2+4.5*(var_num+(var_num~=1)-1) 21 2.75 2]);
+    set(CDF_panels(var_num),'Units','Centimeters','Position',[2+4.3*(var_num+(var_num~=1)-1) 21 2.6 2]);
     x_rng = var_rngs(var_num,1):step_size(var_num):var_rngs(var_num,end);
     [p_vals_first_last(var_num,:),p_first_last_handles(end+1,:)] = plotFirstToLastCDFs(vars{var_num},funcs{var_num},CDF_panels(var_num),x_rng,x_lbls_with_units{var_num},first_and_last_flag);
     if var_num == 1
@@ -77,7 +77,7 @@ ks_opts{3} = {};
 % Dependence on cycle num.
 for var_num = 1:length(vars)
     CDF_panels_3(var_num) = axes();
-    set(CDF_panels_3(var_num),'Units','Centimeters','Position',[2+4.5*(var_num+(var_num~=1)-1) 15.25 2.75 2]);
+    set(CDF_panels_3(var_num),'Units','Centimeters','Position',[2+4.3*(var_num+(var_num~=1)-1) 15.25 2.6 2]);
     x_rng = var_rngs(var_num,1):step_size(var_num):var_rngs(var_num,end);
     [p_vals_slopes(var_num,:),lin_reg_handles(var_num,:)] = plotCycleDependence(vars{var_num},x_rng,funcs{var_num},mult_fact(var_num),ks_opts{var_num});
     
@@ -98,6 +98,26 @@ for var_num = 1:length(vars)
 end
 
 leg.ItemTokenSize = [10,3];
+
+%% Brown forsythe to show that r's variability increases
+
+r_data = vars{2};
+r_multi_cycle = r_data(cellfun(@(x) length(x)>1,r_data));
+r_first = cellfun(@(x) x{1},r_multi_cycle,'Uni',0); % First
+r_last = cellfun(@(x) x{end},r_multi_cycle,'Uni',0); % Last
+r_first = cellfun(@(x) r_func(x),r_first);
+r_last = cellfun(@(x) r_func(x),r_last);
+r_labels = [ones(size(r_first)),2*ones(size(r_last))];
+[p_r_brownForsythe, bf_tbl]  = vartestn([r_first,r_last]', r_labels',...
+    'TestType', 'BrownForsythe', 'Display', 'off');
+F_r_brownForsythe = bf_tbl.fstat;
+
+% While we're at it, get last RD's median, IQR:
+RD_data = vars{3};
+RD_multi_cycle = RD_data(cellfun(@(x) length(x)>1,RD_data));
+RD_last = cellfun(@(x) x{end},RD_multi_cycle,'Uni',0); % Last
+RD_last = cellfun(@(x) RD_func(x),RD_last);
+last_RD_range = prctile(RD_last,[25,50,75]);
 
 %% We soon want to do the same for approach velocity, let's extract head-variables
 all_d_hc_y = cell(0);
@@ -136,7 +156,7 @@ x_lbl = {'Approach velocity [cm/s]'};
 x_rng = -30:0.1:10;
 for var_num = 1
     CDF_panels = axes();
-    set(CDF_panels,'Units','Centimeters','Position',[2+4.5 21 2.75 2]);
+    set(CDF_panels,'Units','Centimeters','Position',[2+4.3 21 2.6 2]);
     [p_vals_first_last(end+1,:),p_first_last_handles(end+1,:)] = plotFirstToLastCDFs(head_vars{var_num},head_func{var_num},CDF_panels,x_rng,x_lbl,first_and_last_flag);
     
     x_lbl_handle = get(gca,'XLabel');
@@ -153,9 +173,11 @@ mult_fact = 30;
 ks_opts{4} = {};
 for var_num = 1
     CDF_panels = axes();
-    set(CDF_panels,'Units','Centimeters','Position',[2+4.5 15.25 2.75 2]);
+    set(CDF_panels,'Units','Centimeters','Position',[2+4.3 15.25 2.6 2]);
     [p_vals_slopes(end+1,:),lin_reg_handles(end+1,:)] = plotCycleDependence(head_vars{var_num},x_rng,head_func{var_num},mult_fact,ks_opts{4});
-    set(gca,'XTick',1:5)
+    x_tick_lbls = cellfun(@(x) num2str(x),num2cell(1:5),'Uni',0);
+    x_tick_lbls{end} = ['$\geq',x_tick_lbls{end},'$'];
+    set(gca,'XTick',1:5,'XTickLabel',x_tick_lbls,'TickLabelInterpreter','latex');
     xlabel('N_{cycles}')
 end
 %set(gca,'XTickLabel',[]);
@@ -180,7 +202,7 @@ for k = 1:size(pairs_id,1)
     sec_var_idx = pairs_id(k,2);
 
     % Make axis for the pair of variables
-    first_panel_axes(k) = axes('Units','centimeters','Position',[2.5+2*(k-1) 9.75 2 3]);
+    first_panel_axes(k) = axes('Units','centimeters','Position',[2.75+1.75*(k-1) 9.5 1.75 3]);
     pair_lbls = cell(0);
 
     for mm = 1:3 % Iterate over correlation, time-aligned, lagged, leading
@@ -259,7 +281,7 @@ var_names = var_names([1,3,2]);
 head_vars_idx = 1;
 tick_lbls = {'aligned';'head lags';'head leads'};
 sec_panel_r_vals = [];
-axes('Units','centimeters','Position',[11.75 9.75 6 3]);
+axes('Units','centimeters','Position',[11.5 9.5 5.25 3]);
 asterisk_handles_sec_panel = gobjects(0);
 for k = 1:length(vars) % Iterate over whisker-relate variables
     first_var_idx = k; % Whisker-related
@@ -329,8 +351,9 @@ x_tick_lbls = repmat(tick_lbls,1,3);
 x_tick_lbls = [x_tick_lbls(:)]';
 set(gca,'XTick',x_tick,'XTickLabel',x_tick_lbls,'TickLabelInterpreter','Latex');
 ylabel('Correlation')
+txt_pos_x = [1,2.6,4.4];
 for k = 1:3
-    txt = text('Units','centimeters','HorizontalAlignment','center','Position',[1+2*(k-1) 3.5]);
+    txt = text('Units','centimeters','HorizontalAlignment','center','Position',[txt_pos_x(k) 3.5]);
     txt.String = var_names{k};
     txt.Interpreter = 'latex';
 end
@@ -357,26 +380,26 @@ end
 child_list = get(gcf,'children');
 for k = 1:length(child_list)
     try
-        set(child_list(k),'FontSize',10,'FontWeight','Normal');
+        set(child_list(k),'FontSize',9,'FontWeight','Normal');
     end
 end
 txt_list = findall(gcf,'Type','Text');
 for k = 1:length(txt_list)
-    set(txt_list(k),'FontSize',10,'FontWeight','Normal');
+    set(txt_list(k),'FontSize',9,'FontWeight','Normal');
 end
 axes_list = findall(gcf,'Type','Axes');
 for k = 1:length(axes_list)
-    set(axes_list(k),'FontSize',10,'FontWeight','Normal');
-    set(get(axes_list(k),'XLabel'),'FontSize',10,'FontWeight','Normal');
-    set(get(axes_list(k),'YLabel'),'FontSize',10,'FontWeight','Normal');
+    set(axes_list(k),'FontSize',9,'FontWeight','Normal');
+    set(get(axes_list(k),'XLabel'),'FontSize',9,'FontWeight','Normal');
+    set(get(axes_list(k),'YLabel'),'FontSize',9,'FontWeight','Normal');
 end
 clrbar_list = findall(gcf,'Type','Colorbar');
 for k = 1:length(clrbar_list)
-    set(clrbar_list(k),'FontSize',10,'FontWeight','Normal');
+    set(clrbar_list(k),'FontSize',9,'FontWeight','Normal');
 end
 annot_list = findall(gcf,'Type','textboxshape');
 for k = 1:length(annot_list)
-    set(annot_list(k),'FontSize',10,'FontWeight','Normal');
+    set(annot_list(k),'FontSize',9,'FontWeight','Normal');
 end
 drawnow expose
 
@@ -443,6 +466,14 @@ for k = 1:4
     disp(['Slope first: p = ',num2str(p_vals_slopes(k,1)),'; FDR_sig = ',num2str(fdr_p_vals_first_last(k,1))]);
     disp(['Slope last : p = ',num2str(p_vals_slopes(k,2)),'; FDR_sig = ',num2str(fdr_p_vals_first_last(k,2))])
 end
+
+disp('Fig. 4c, first vs last variance (Brown Forsythe):');
+disp([' p = ',num2str(p_r_brownForsythe),';' ...
+    ' F = ',num2str(F_r_brownForsythe)]);
+
+disp('Fig. 4d, last cycles RD:')
+disp(['median = ',num2str(last_RD_range(2)),'; IQR = ',...
+    num2str(last_RD_range(1)),'-',num2str(last_RD_range(end))]);
 
 disp(' ');
 disp('Fig. 4e: r_values by order')

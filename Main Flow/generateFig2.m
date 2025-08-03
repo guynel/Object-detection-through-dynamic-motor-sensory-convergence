@@ -73,7 +73,7 @@ plot(xx(1:distrib_idx),yy(1:distrib_idx),'Color','r','LineWidth',2)
 plot(xx(distrib_idx:end),yy(distrib_idx:end),'Color','b','LineWidth',2)
 plot(xx(distrib_idx)*[1 1],max(ylim)*[0,1],'k--')
 fh(1).Units = 'Centimeters';
-fh(1).Position = [2.25 23.5 3 1];
+fh(1).Position = [2.25 23.5 2.5 1];
 xlabel('Dist._{(Whisker, Object)} [cm]');
 ylabel('Prob.');
 xlim([-4 2.5])
@@ -90,7 +90,7 @@ set(gca,'XTick',log(x_ticks),'XTickLabel',x_tick_lbls)
 
 leg = legend({'Contact';'Non-contact'});
 set(leg,'Units','centimeters')
-set(leg,'Position',[2.4 24.75 2.725 0.8])
+set(leg,'Position',[2.2 24.75 2.725 0.8])
 
 %% Parameters for 2D plots
 
@@ -221,14 +221,14 @@ if mm==1
         y_lbls = arrayfun(@(x) num2str(x),[min(prob_bins),max(prob_bins)],'Uni',0);
     end
     set(clr_bar,'YTick',y_ticks,'YTickLabel',y_lbls);
-    set(clr_bar,'Units','centimeters','Position',[5.5 17.65 0.2 3.5]);
+    set(clr_bar,'Units','centimeters','Position',[5.5 17.65 0.2 3]);
     clr_bar.Label.String = 'Probability Mass';
 
 end
 end
 
 % Adjust positions
-fh(2).InnerPosition = [1.75 17.625 3.5 3.5];
+fh(2).InnerPosition = [1.75 17.625 3 3];
 axes(fh(2))
 axis([-1 1 -1 1]*(max_r_val_diff+0.2))
 set(gca,'XColor','k','YColor','k');
@@ -243,16 +243,16 @@ set(gca, 'YTick', y_ticks_new, 'YTickLabel', y_labels_rounded)
 ylabel('$\dot{\kappa}$ $[m^{-1}/s]$ $\times$ $10^3$','rotation',90,'Interpreter','latex')
 xlabel('$\dot{\theta}$ $[degrees/s]$  $\times$ $10^3$','Interpreter','latex')
 
-fh(3).InnerPosition = [8 20.5 3.5 3.5];
+fh(3).InnerPosition = [7.5 20.5 3 3];
 axes(fh(3))
 axis([-1 1 -1 1]*(max_r_val_diff+0.2))
-fh(4).InnerPosition = [8 14.75 3.5 3.5];
+fh(4).InnerPosition = [7.5 14.75 3 3];
 axes(fh(4))
 axis([-1 1 -1 1]*(max_r_val_diff+0.2))
 
 txt1 = text(fh(2), 0.5, 1.05, 'Pre-contact', 'Units', 'normalized', ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', 'FontSize', 12);
-txt2 = text(fh(3), 0.5, 1.6, 'Contact', 'Units', 'normalized', ...
+txt2 = text(fh(3), 0.5, 1.65, 'Contact', 'Units', 'normalized', ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', 'FontSize', 12);
 txt3 = text(fh(4), 0.5, 1.05, {'Non-contact';'(after 1st cont.)'}, 'Units', 'normalized', ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', 'FontSize', 12);
@@ -347,7 +347,7 @@ for k = 1:2
         set(marg_fh(end),'xaxislocation','top','XTickLabelRotation',0);
     end
     marg_fh(end).Units = 'Centimeters';
-    marg_fh(end).Position = [11.5, new_y0, 1, new_height_cm];
+    marg_fh(end).Position = [10.5, new_y0, 1, new_height_cm];
     xlabel('Prob.');
     y_lbl = ylabel('$\dot{\kappa}$ $[m^{-1}/s]$ $\times$ $10^3$','rotation',90,'Interpreter','latex');
     set(y_lbl,'Units','centimeters');
@@ -383,7 +383,7 @@ for k = 1:2
     new_x0 = center_x - new_width_cm / 2;  
 
     marg_fh(end).Units = 'Centimeters';
-    marg_fh(end).Position = [new_x0, joint_cm(2)+joint_cm(end)-0.5-4.5*(k==2), new_width_cm, 1, ];
+    marg_fh(end).Position = [new_x0, joint_cm(2)+joint_cm(end)-0.5-4*(k==2), new_width_cm, 1, ];
     marg_pos = get(marg_fh(end),'Position'); % (5/5.2) = Corrected for the distortion caused by the color frame-circle
     set(marg_fh(end),'Position',marg_pos+[0 0.5 0 0])
     if k == 1
@@ -453,7 +453,7 @@ end
 
 % Format and beautify
 fh(5).Units = 'Centimeters';
-fh(5).Position = [15.5 23.5 3 1.25];
+fh(5).Position = [14.5 23.5 3 1.25];
 ax = axis();
 ax(1:2) = [-pi pi];
 axis(ax)
@@ -561,16 +561,16 @@ axis equal
 axis(0.0065*[-1 1 -1 1])
 mockPolarAxes(8,linspace(0,0.0065,5),fh(6),1.2,[0 0 0],0,{'0';'2';'4';'6';'8x10^{-3}'});
 fh(6).Units = 'Centimeters';
-fh(6).Position = [15 17 4.25 4.25];
+fh(6).Position = [13.75 17 4.25 4.25];
 colormap(fh(6),(jet(num_dist_clrs)));
 clr_bar = colorbar(fh(6));
 clr_bar.Units = 'Centimeters';
-clr_bar.Position = [14.8 17.5 0.2 3.25];
+clr_bar.Position = [13.5 17.5 0.2 3.25];
 practical_max_val = round(max(dists_for_heatmap),2);
 practical_max_val_position = practical_max_val/max_dist_val;
 set(clr_bar,'Ticks',[0,practical_max_val_position],'TickLabels',{'0';num2str(practical_max_val)});
 clr_bar.Label.String = {'Contact Prob.'};
-clr_bar.Label.Position = clr_bar.Label.Position+[2.6 0 0];
+clr_bar.Label.Position = clr_bar.Label.Position+[2 0 0];
 set(clr_bar,'TickDirection','Out')
 
 
@@ -652,7 +652,7 @@ plot(all_xy(:,1),a(all_xy(:,1)),'k--','LineWidth',1);
 
 % Format and beautify
 fh(7).Units = 'Centimeters';
-fh(7).Position = [15.5 14.45 3 1.25];
+fh(7).Position = [14.5 14.45 3 1.25];
 ylabel('Contact Prob.');
 xlabel('$ \left|dist(\alpha^{*})\right| / {\frac{\pi}{2}}$','Interpreter','Latex');
 x_ticks = linspace(0,pi/2,5);
@@ -679,30 +679,30 @@ set(gca,'XTick',linspace(0,pi/2,5),'XTickLabel',(linspace(0,1,5)))
 child_list = get(gcf,'children');
 for k = 1:length(child_list)
     try
-        set(child_list(k),'FontSize',10,'FontWeight','Normal');
+        set(child_list(k),'FontSize',9,'FontWeight','Normal');
     end
 end
 txt_list = findall(gcf,'Type','Text');
 for k = 1:length(txt_list)
-    set(txt_list(k),'FontSize',10,'FontWeight','Normal');
+    set(txt_list(k),'FontSize',9,'FontWeight','Normal');
 end
 axes_list = findall(gcf,'Type','Axes');
 for k = 1:length(axes_list)
-    set(axes_list(k),'FontSize',10,'FontWeight','Normal');
-    set(get(axes_list(k),'XLabel'),'FontSize',10,'FontWeight','Normal');
-    set(get(axes_list(k),'YLabel'),'FontSize',10,'FontWeight','Normal');
+    set(axes_list(k),'FontSize',9,'FontWeight','Normal');
+    set(get(axes_list(k),'XLabel'),'FontSize',9,'FontWeight','Normal');
+    set(get(axes_list(k),'YLabel'),'FontSize',9,'FontWeight','Normal');
 end
 clrbar_list = findall(gcf,'Type','Colorbar');
 for k = 1:length(clrbar_list)
-    set(clrbar_list(k),'FontSize',10,'FontWeight','Normal');
+    set(clrbar_list(k),'FontSize',9,'FontWeight','Normal');
 end
 annot_list = findall(gcf,'Type','textboxshape');
 for k = 1:length(annot_list)
-    set(annot_list(k),'FontSize',10,'FontWeight','Normal');
+    set(annot_list(k),'FontSize',9,'FontWeight','Normal');
 end
 drawnow expose
 
-set([txt1,txt2,txt3],'FontSize',12)
+set([txt1,txt2,txt3],'FontSize',10,'FontWeight','bold')
 
 %% Alternative phase-planes (extended figure)
 % Do the same as Fig.2b-c above, separately for other pairs of variables
@@ -879,7 +879,7 @@ if (var_iter) == 1 & (mm==1)
         y_lbls =  arrayfun(@(x) ['10^{',num2str(x),'}'],clr_ticks,'Uni',0);
     end
     set(clr_bar,'YTick',y_ticks,'YTickLabel',y_lbls);
-    set(clr_bar,'Units','centimeters','Position',[1.75 21 3.5 0.2]);
+    set(clr_bar,'Units','centimeters','Position',[1.75 21 2.5 0.2]);
     clr_bar.Label.String = 'Probability Mass';
 
 end
@@ -889,11 +889,11 @@ end
 
 max_r_val_diff = max(r_joint_plot_range);
 if mm == 1
-    supp_joint_fh(var_iter,mm).InnerPosition = [1.75 17-7*(var_iter-1) 3.25 3.25];
+    supp_joint_fh(var_iter,mm).InnerPosition = [1.75 17-6.75*(var_iter-1) 2.5 2.5];
 elseif mm == 2
-    supp_joint_fh(var_iter,mm).InnerPosition = [7.5 17-7*(var_iter-1) 3.25 3.25];
+    supp_joint_fh(var_iter,mm).InnerPosition = [6.75 17-6.75*(var_iter-1) 2.5 2.5];
 elseif mm == 3
-    supp_joint_fh(var_iter,mm).InnerPosition = [13.25 17-7*(var_iter-1) 3.25 3.25];
+    supp_joint_fh(var_iter,mm).InnerPosition = [12.5 17-6.75*(var_iter-1) 2.5 2.5];
 end
 axes(supp_joint_fh(var_iter,mm))
 axis([-1 1 -1 1]*(max_r_val_diff+0.075))
@@ -901,11 +901,11 @@ axis([-1 1 -1 1]*(max_r_val_diff+0.075))
 end
 
 if var_iter == 1
-txt1 = text(supp_joint_fh(var_iter,1), 0.5, 1.8, 'Pre-contact', 'Units', 'normalized', ...
+txt1 = text(supp_joint_fh(var_iter,1), 0.5, 2, 'Pre-contact', 'Units', 'normalized', ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', 'FontSize', 12);
-txt2 = text(supp_joint_fh(var_iter,2), 0.5, 1.8, 'Contact', 'Units', 'normalized', ...
+txt2 = text(supp_joint_fh(var_iter,2), 0.5, 2, 'Contact', 'Units', 'normalized', ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', 'FontSize', 12);
-txt3 = text(supp_joint_fh(var_iter,3), 0.5, 1.7, {'Non-contact';'(after 1st cont.)'}, 'Units', 'normalized', ...
+txt3 = text(supp_joint_fh(var_iter,3), 0.5, 1.9, {'Non-contact';'(after 1st cont.)'}, 'Units', 'normalized', ...
      'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', 'FontSize', 12);
 end
 axes(supp_joint_fh(var_iter,3))
@@ -977,7 +977,7 @@ for mm = 2:3
     center_y = joint_cm(2) + joint_cm(end) / 2;                         % vertical center of first axis
     new_y0 = center_y - new_height_cm / 2;                  % align centers
     supp_marg_fh_curv(var_iter,mm-1).Units = 'Centimeters';
-    supp_marg_fh_curv(var_iter,mm-1).Position = [10.75+(mm==3)*5.75, new_y0, 1, new_height_cm];
+    supp_marg_fh_curv(var_iter,mm-1).Position = [9.25+(mm==3)*5.75, new_y0, 1, new_height_cm];
     xlabel('Prob.');
     set(supp_marg_fh_curv(var_iter,mm-1),'yaxislocation','right');
     set(supp_marg_fh_curv(var_iter,mm-1),'YTickLabelRotation',-45);
@@ -1013,30 +1013,31 @@ ylabel(sen_lbl,'Interpreter','latex');
 child_list = get(gcf,'children');
 for k = 1:length(child_list)
     try
-        set(child_list(k),'FontSize',10,'FontWeight','Normal');
+        set(child_list(k),'FontSize',9,'FontWeight','Normal');
     end
 end
 txt_list = findall(gcf,'Type','Text');
 for k = 1:length(txt_list)
-    set(txt_list(k),'FontSize',10,'FontWeight','Normal');
+    set(txt_list(k),'FontSize',9,'FontWeight','Normal');
 end
 axes_list = findall(gcf,'Type','Axes');
 for k = 1:length(axes_list)
-    set(axes_list(k),'FontSize',10,'FontWeight','Normal');
-    set(get(axes_list(k),'XLabel'),'FontSize',10,'FontWeight','Normal');
-    set(get(axes_list(k),'YLabel'),'FontSize',10,'FontWeight','Normal');
+    set(axes_list(k),'FontSize',9,'FontWeight','Normal');
+    set(get(axes_list(k),'XLabel'),'FontSize',9,'FontWeight','Normal');
+    set(get(axes_list(k),'YLabel'),'FontSize',9,'FontWeight','Normal');
 end
 clrbar_list = findall(gcf,'Type','Colorbar');
 for k = 1:length(clrbar_list)
-    set(clrbar_list(k),'FontSize',10,'FontWeight','Normal');
+    set(clrbar_list(k),'FontSize',9,'FontWeight','Normal');
 end
 annot_list = findall(gcf,'Type','textboxshape');
 for k = 1:length(annot_list)
-    set(annot_list(k),'FontSize',10,'FontWeight','Normal');
+    set(annot_list(k),'FontSize',9,'FontWeight','Normal');
 end
-set([txt1,txt2,txt3],'FontSize',12)
+set([txt1,txt2,txt3],'FontSize',10,'FontWeight','bold')
 drawnow expose
 end
+clr_bar.Position = clr_bar.Position-[0 1 0 0];
 
 
 %% Report statistics:

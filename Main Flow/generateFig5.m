@@ -304,7 +304,7 @@ set(gca,'XTick',linspace(0,pi/2,5),'XTickLabel',makePolarTicks(linspace(0,pi/2,5
 p_tightness_of_tips = [p_tightness_of_tips,p_tight_stats.ranksum,sum(~is_tip),sum(is_tip)];
 
 % Add legend
-leg = legend({'TIP';'Contact'},'Units','centimeters');
+leg = legend({'Contact';'TIP'},'Units','centimeters');
 leg.Position = [7.5 17.5 2.25 0.8];
 
 %% Within cycle convergence? (using dispersion minimization)
@@ -585,26 +585,26 @@ pp2 = plot(xx,model(beta_fit,xx),'k--','LineWidth',1.5);
 child_list = get(gcf,'children');
 for k = 1:length(child_list)
     try
-        set(child_list(k),'FontSize',10,'FontWeight','Normal');
+        set(child_list(k),'FontSize',9,'FontWeight','Normal');
     end
 end
 txt_list = findall(gcf,'Type','Text');
 for k = 1:length(txt_list)
-    set(txt_list(k),'FontSize',10,'FontWeight','Normal');
+    set(txt_list(k),'FontSize',9,'FontWeight','Normal');
 end
 axes_list = findall(gcf,'Type','Axes');
 for k = 1:length(axes_list)
-    set(axes_list(k),'FontSize',10,'FontWeight','Normal');
-    set(get(axes_list(k),'XLabel'),'FontSize',10,'FontWeight','Normal');
-    set(get(axes_list(k),'YLabel'),'FontSize',10,'FontWeight','Normal');
+    set(axes_list(k),'FontSize',9,'FontWeight','Normal');
+    set(get(axes_list(k),'XLabel'),'FontSize',9,'FontWeight','Normal');
+    set(get(axes_list(k),'YLabel'),'FontSize',9,'FontWeight','Normal');
 end
 clrbar_list = findall(gcf,'Type','Colorbar');
 for k = 1:length(clrbar_list)
-    set(clrbar_list(k),'FontSize',10,'FontWeight','Normal');
+    set(clrbar_list(k),'FontSize',9,'FontWeight','Normal');
 end
 annot_list = findall(gcf,'Type','textboxshape');
 for k = 1:length(annot_list)
-    set(annot_list(k),'FontSize',10,'FontWeight','Normal');
+    set(annot_list(k),'FontSize',9,'FontWeight','Normal');
 end
 drawnow expose
 %%
